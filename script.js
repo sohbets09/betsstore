@@ -1,3 +1,7 @@
+// ============================================
+//   BETS STORE - Doly script.js
+// ============================================
+
 let allApps = [];
 let currentCategory = 'all';
 let searchTerm = '';
@@ -7,6 +11,22 @@ const featuredList = document.getElementById('featured-list');
 const searchInput = document.getElementById('search');
 const catBtns = document.querySelectorAll('.cat-btn');
 
+// ===== Icon çykyşy: surat ýa-da emoji =====
+function renderIcon(icon) {
+  if (!icon) return '📦';
+
+  const isImage = /\.(png|jpg|jpeg|webp|svg|gif)$/i.test(icon);
+
+  if (isImage) {
+    return `<img src="${icon}" alt="icon"
+              onerror="this.replaceWith(document.createTextNode('📦'));"
+              style="width:100%;height:100%;object-fit:cover;display:block;">`;
+  }
+
+  return icon;
+}
+
+// ===== Programmalary ýükle =====
 async function loadApps() {
   try {
     const res = await fetch('apps.json');
@@ -15,17 +35,18 @@ async function loadApps() {
     render();
   } catch (e) {
     console.error('apps.json ýüklenmedi:', e);
-    appsList.innerHTML = '<p style="color:#d4af37;text-align:center;">apps.json faýly tapylmady!</p>';
+    appsList.innerHTML = '<p style="color:#d4af37;text-align:center;padding:40px;">apps.json faýly tapylmady!</p>';
   }
 }
 
+// ===== Adaty karta =====
 function createCard(app, index) {
   const div = document.createElement('div');
   div.className = 'app-card';
   div.style.animationDelay = `${index * 0.05}s`;
   div.innerHTML = `
     <span class="dl-badge">APK</span>
-    <div class="app-icon">${app.icon}</div>
+    <div class="app-icon">${renderIcon(app.icon)}</div>
     <div class="app-name">${app.name}</div>
     <div class="app-desc">${app.desc}</div>
     <span class="app-cat">${app.category}</span>
@@ -35,12 +56,13 @@ function createCard(app, index) {
   return div;
 }
 
+// ===== Featured karta =====
 function createFeatured(app, index) {
   const div = document.createElement('div');
   div.className = 'featured-card';
   div.style.animationDelay = `${index * 0.1}s`;
   div.innerHTML = `
-    <div class="app-icon" style="width:60px;height:60px;font-size:28px;margin:0;">${app.icon}</div>
+    <div class="app-icon" style="width:60px;height:60px;font-size:28px;margin:0;">${renderIcon(app.icon)}</div>
     <div style="text-align:left;position:relative;z-index:1;flex:1;">
       <div class="app-name" style="font-size:16px;">${app.name}</div>
       <div class="app-desc" style="margin-bottom:4px;">${app.desc}</div>
@@ -52,11 +74,13 @@ function createFeatured(app, index) {
   return div;
 }
 
+// ===== Render =====
 function render() {
   const filtered = allApps.filter(a => {
     const matchCat = currentCategory === 'all' || a.category === currentCategory;
-    const matchSearch = a.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                        a.desc.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchSearch =
+      a.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      a.desc.toLowerCase().includes(searchTerm.toLowerCase());
     return matchCat && matchSearch;
   });
 
@@ -69,6 +93,7 @@ function render() {
   featured.forEach((a, i) => featuredList.appendChild(createFeatured(a, i)));
 }
 
+// ===== APK ýükle =====
 function downloadApk(app) {
   const a = document.createElement('a');
   a.href = app.apk;
@@ -79,6 +104,7 @@ function downloadApk(app) {
   showToast(`⬇ ${app.name} ýüklenýär...`);
 }
 
+// ===== Toast duýduryş =====
 function showToast(msg) {
   const t = document.createElement('div');
   t.textContent = msg;
@@ -101,7 +127,9 @@ function showToast(msg) {
     transition: 0.5s cubic-bezier(.2,.8,.2,1);
   `;
   document.body.appendChild(t);
-  requestAnimationFrame(() => t.style.transform = 'translateX(-50%) translateY(0)');
+  requestAnimationFrame(() => {
+    t.style.transform = 'translateX(-50%) translateY(0)';
+  });
   setTimeout(() => {
     t.style.transform = 'translateX(-50%) translateY(150px)';
     t.style.opacity = '0';
@@ -109,13 +137,14 @@ function showToast(msg) {
   }, 2500);
 }
 
+// ===== Modal =====
 function openModal(app) {
   const overlay = document.createElement('div');
   overlay.className = 'modal-overlay active';
   overlay.innerHTML = `
     <div class="modal">
       <button class="close-btn">×</button>
-      <div class="modal-icon">${app.icon}</div>
+      <div class="modal-icon">${renderIcon(app.icon)}</div>
       <h2>${app.name}</h2>
       <p>${app.desc}</p>
 
@@ -140,21 +169,25 @@ function openModal(app) {
   };
 
   overlay.querySelector('.close-btn').onclick = () => overlay.remove();
-  overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
+  overlay.onclick = (e) => {
+    if (e.target === overlay) overlay.remove();
+  };
 }
 
-searchInput.addEventListener('input', e => {
+// ===== Wagytylar =====
+searchInput.addEventListener('input', (e) => {
   searchTerm = e.target.value;
   render();
 });
 
-catBtns.forEach(btn => {
+catBtns.forEach((btn) => {
   btn.onclick = () => {
-    catBtns.forEach(b => b.classList.remove('active'));
+    catBtns.forEach((b) => b.classList.remove('active'));
     btn.classList.add('active');
     currentCategory = btn.dataset.cat;
     render();
   };
 });
 
+// ===== Başla =====
 loadApps();
