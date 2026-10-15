@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bets Store</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Manrope:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="bg-pattern"></div>
+  <div class="bg-glow"></div>
+
+  <header class="header">
+    <div class="logo">
+      <div class="logo-mark">
+        <span>B</span>
+      </div>
+      <div class="logo-text">
+        <h1>BETS <span>STORE</span></h1>
+        <p class="tagline">APK MARKET</p>
+      </div>
+    </div>
+    <div class="search-box">
+      <input type="text" id="search" placeholder="Gözle...">
+      <span class="search-icon">⌕</span>
+    </div>
+  </header>
+
+  <div class="divider"></div>
+
+  <nav class="categories">
+    <button class="cat-btn active" data-cat="all">Hemmesi</button>
+    <button class="cat-btn" data-cat="oyun">Oýunlar</button>
+    <button class="cat-btn" data-cat="gural">Gurallar</button>
+    <button class="cat-btn" data-cat="bilim">Bilim</button>
+    <button class="cat-btn" data-cat="saglyk">Saglyk</button>
+  </nav>
+
+  <main>
+    <section class="featured">
+      <h2 class="section-title">
+        <span class="line"></span>
+        Saýlananlar
+        <span class="line"></span>
+      </h2>
+      <div id="featured-list" class="featured-grid"></div>
+    </section>
+
+    <section class="all-apps">
+      <h2 class="section-title">
+        <span class="line"></span>
+        Ähli programmalar
+        <span class="line"></span>
+      </h2>
+      <div id="apps-list" class="apps-grid"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-ornament">✦ ✦ ✦</div>
+    <p>© 2026 <strong>BETS STORE</strong></p>
+    <p class="footer-sub">Türkmen milli stili · APK paýlaýyş merkezi</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

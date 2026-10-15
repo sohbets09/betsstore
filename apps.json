@@ -1,0 +1,16 @@
+{
+  "apps": [
+    {
+      "id": "1da-dill",
+      "name": "1da-dill",
+      "desc": "Diller",
+      "icon": "apks/1da-dill.jpg",
+      "category": "gural",
+      "featured": true,
+      "version": "1.0.2",
+      "size": "3.4 MB",
+      "apk": "apks/1da-dill_1.apk",
+      "package": "tm.bets.1da-dill"
+    }
+  ]
+}
